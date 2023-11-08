@@ -478,6 +478,7 @@
 
                 // Fermer la fenêtre modale
                 $('#createClientModal').modal('hide');
+                location.reload();
             })
             .catch(error => {
                 console.error('Erreur lors de la création du client:', error);
@@ -525,12 +526,12 @@
         })
             .then(response => response.json())
             .then(createdTechnician => {
+                location.reload();
                 // Ajouter le technicien à la liste des utilisateurs
                 const userList = document.getElementById('userList');
                 const listItem = document.createElement('li');
                 listItem.textContent = `Technicien: ${createdTechnician.fullName}, Email: ${createdTechnician.email}, Spécialité: ${createdTechnician.specialite}`;
                 userList.appendChild(listItem);
-
                 // Effacer les champs du formulaire après la création réussie
                 document.getElementById('techname').value = '';
                 document.getElementById('techpassword').value = '';
@@ -539,8 +540,10 @@
                 document.getElementById('techbirthDate').value = '';
                 document.getElementById('specialité').value = '';
 
+
                 // Fermer la fenêtre modale
                 $('#createTechnicianModal').modal('hide');
+
             })
             .catch(error => {
                 console.error('Erreur lors de la création du technicien:', error);

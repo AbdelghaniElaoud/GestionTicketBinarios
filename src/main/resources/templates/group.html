@@ -188,33 +188,40 @@
 
     // Function to send a DELETE request to delete a group
     function deleteGroup(groupId) {
-        // Construct the URL with the groupId
-        const deleteUrl = `http://localhost:9090/api/group/delete/${groupId}`;
+        const confirmed = confirm(`Are you sure you want to delete this group ?`);
 
-        // Fetch options for the DELETE request
-        const requestOptions = {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${authToken}`
-            }
-        };
+        if (confirmed) {
+            // If the user confirms, proceed with the DELETE request
 
-        // Send the DELETE request
-        fetch(deleteUrl, requestOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to delete the group');
+            // Construct the URL with the groupId
+            const deleteUrl = `http://localhost:9090/api/group/delete/${groupId}`;
+
+            // Fetch options for the DELETE request
+            const requestOptions = {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
                 }
-                // Handle successful deletion (e.g., remove the row from the table)
-                const rowToDelete = document.querySelector(`tr[data-group-id="${groupId}"]`);
-                if (rowToDelete) {
-                    rowToDelete.remove();
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting the group:', error);
-            });
+            };
+
+            // Send the DELETE request
+            fetch(deleteUrl, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to delete the group');
+                    }
+                    // Handle successful deletion (e.g., remove the row from the table)
+                    const rowToDelete = document.querySelector(`tr[data-group-id="${groupId}"]`);
+                    if (rowToDelete) {
+                        rowToDelete.remove();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting the group:', error);
+                });
+        }
     }
+
 
     // Fetch group data and populate the table
     fetch('http://localhost:9090/api/group/groups', {
